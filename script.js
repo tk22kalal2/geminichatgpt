@@ -10,7 +10,7 @@ let isResponseGenerating = false;
 
 // API configuration
 const API_KEY = "AIzaSyDtN9czLTfmVm3FvC-MzL3fdbqIiHMGRxo"; // Your API key here
-const API_URL = `https://generativelanguage.googleapis.com/v1/models/gemini-1.5-pro:generateContent?key=${API_KEY}`;
+const API_URL = `https://generativelanguage.googleapis.com/v1/models/gemini-pro:generateContent?key=${API_KEY}`;
 
 // Load theme and chat data from local storage on page load
 const loadDataFromLocalstorage = () => {
