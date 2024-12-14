@@ -70,7 +70,7 @@ const generateAPIResponse = async (incomingMessageDiv) => {
         "Authorization": `Bearer ${API_KEY}`
       },
       body: JSON.stringify({
-        "messages": [],
+        "messages": [{ "role": "user", "content": userMessage }],
         "model": "llama-3.1-70b-versatile",
         "temperature": 1,
         "max_tokens": 1024,
