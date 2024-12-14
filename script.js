@@ -9,13 +9,13 @@ let userMessage = null;
 let isResponseGenerating = false;
 
 // API configuration
-const API_KEY = "AIzaSyDtN9czLTfmVm3FvC-MzL3fdbqIiHMGRxo"; // Your API key here
-const API_URL = `https://generativelanguage.googleapis.com/v1/models/gemini-pro:generateContent?key=${API_KEY}`;
+const API_KEY = "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"; // Groq API key
+const groq = new Groq({ apiKey: API_KEY }); // Initialize Groq SDK
 
 // Load theme and chat data from local storage on page load
 const loadDataFromLocalstorage = () => {
   const savedChats = localStorage.getItem("saved-chats");
-  const isLightMode = (localStorage.getItem("themeColor") === "light_mode");
+  const isLightMode = localStorage.getItem("themeColor") === "light_mode";
 
   // Apply the stored theme
   document.body.classList.toggle("light_mode", isLightMode);
@@ -26,7 +26,7 @@ const loadDataFromLocalstorage = () => {
   document.body.classList.toggle("hide-header", savedChats);
 
   chatContainer.scrollTo(0, chatContainer.scrollHeight); // Scroll to the bottom
-}
+};
 
 // Create a new message element and return it
 const createMessageElement = (content, ...classes) => {
@@ -34,16 +34,16 @@ const createMessageElement = (content, ...classes) => {
   div.classList.add("message", ...classes);
   div.innerHTML = content;
   return div;
-}
+};
 
 // Show typing effect by displaying words one by one
 const showTypingEffect = (text, textElement, incomingMessageDiv) => {
-  const words = text.split(' ');
+  const words = text.split(" ");
   let currentWordIndex = 0;
 
   const typingInterval = setInterval(() => {
     // Append each word to the text element with a space
-    textElement.innerText += (currentWordIndex === 0 ? '' : ' ') + words[currentWordIndex++];
+    textElement.innerText += (currentWordIndex === 0 ? "" : " ") + words[currentWordIndex++];
     incomingMessageDiv.querySelector(".icon").classList.add("hide");
 
     // If all words are displayed
@@ -55,30 +55,26 @@ const showTypingEffect = (text, textElement, incomingMessageDiv) => {
     }
     chatContainer.scrollTo(0, chatContainer.scrollHeight); // Scroll to the bottom
   }, 75);
-}
+};
 
-// Fetch response from the API based on user message
+// Fetch response from the Groq API based on user message
 const generateAPIResponse = async (incomingMessageDiv) => {
   const textElement = incomingMessageDiv.querySelector(".text"); // Getting text element
 
   try {
-    // Send a POST request to the API with the user's message
-    const response = await fetch(API_URL, {
-      method: "POST",
-      headers: { "Content-Type": "application/json" },
-      body: JSON.stringify({ 
-        contents: [{ 
-          role: "user", 
-          parts: [{ text: userMessage }] 
-        }] 
-      }),
+    // Send the user's message to the Groq API
+    const response = await groq.chat.completions.create({
+      messages: [{ role: "user", content: userMessage }],
+      model: "llama-3.1-70b-versatile",
+      temperature: 1,
+      max_tokens: 1024,
+      top_p: 1,
+      stream: false,
+      stop: null,
     });
 
-    const data = await response.json();
-    if (!response.ok) throw new Error(data.error.message);
-
-    // Get the API response text and remove asterisks from it
-    const apiResponse = data.candidates[0].content.parts[0].text.replace(/\*\*(.*?)\*\*/g, '$1');
+    // Get the API response text
+    const apiResponse = response.choices[0].message.content;
     showTypingEffect(apiResponse, textElement, incomingMessageDiv); // Show typing effect
   } catch (error) { // Handle error
     isResponseGenerating = false;
@@ -87,12 +83,12 @@ const generateAPIResponse = async (incomingMessageDiv) => {
   } finally {
     incomingMessageDiv.classList.remove("loading");
   }
-}
+};
 
 // Show a loading animation while waiting for the API response
 const showLoadingAnimation = () => {
   const html = `<div class="message-content">
-                  <img class="avatar" src="images/gemini.svg" alt="Gemini avatar">
+                  <img class="avatar" src="images/groq.svg" alt="Groq avatar">
                   <p class="text"></p>
                   <div class="loading-indicator">
                     <div class="loading-bar"></div>
@@ -107,7 +103,7 @@ const showLoadingAnimation = () => {
 
   chatContainer.scrollTo(0, chatContainer.scrollHeight); // Scroll to the bottom
   generateAPIResponse(incomingMessageDiv);
-}
+};
 
 // Copy message text to the clipboard
 const copyMessage = (copyButton) => {
@@ -116,12 +112,12 @@ const copyMessage = (copyButton) => {
   navigator.clipboard.writeText(messageText);
   copyButton.innerText = "done"; // Show confirmation icon
   setTimeout(() => copyButton.innerText = "content_copy", 1000); // Revert icon after 1 second
-}
+};
 
 // Handle sending outgoing chat messages
 const handleOutgoingChat = () => {
   userMessage = typingForm.querySelector(".typing-input").value.trim() || userMessage;
-  if(!userMessage || isResponseGenerating) return; // Exit if there is no message or response is generating
+  if (!userMessage || isResponseGenerating) return; // Exit if there is no message or response is generating
 
   isResponseGenerating = true;
 
@@ -133,12 +129,12 @@ const handleOutgoingChat = () => {
   const outgoingMessageDiv = createMessageElement(html, "outgoing");
   outgoingMessageDiv.querySelector(".text").innerText = userMessage;
   chatContainer.appendChild(outgoingMessageDiv);
-  
+
   typingForm.reset(); // Clear input field
   document.body.classList.add("hide-header");
   chatContainer.scrollTo(0, chatContainer.scrollHeight); // Scroll to the bottom
   setTimeout(showLoadingAnimation, 500); // Show loading animation after a delay
-}
+};
 
 // Toggle between light and dark themes
 toggleThemeButton.addEventListener("click", () => {
