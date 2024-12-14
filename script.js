@@ -10,7 +10,7 @@ let isResponseGenerating = false;
 
 // Groq API configuration
 const API_KEY = "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"; // Your Groq API key here
-const API_URL = "https://api.groq.com/v1/chat/completions";
+const API_URL = "https://api.groq.com/v1/ai/completions"; // Updated Groq API URL based on typical endpoint structure
 
 // Load theme and chat data from local storage on page load
 const loadDataFromLocalstorage = () => {
