@@ -218,32 +218,32 @@ body.hide-header .header {
 }
 
 /* Headings Styling */
-.h1, h2, h3 {
+h1, h2, h3 {
   font-family: Arial, sans-serif;
   margin: 15px 0;
 }
 
-.h1 strong {
+h1 strong {
   color: #2d89ef; /* Light blue color */
 }
 
-.h2 strong, h3 strong {
+h2 strong, h3 strong {
   color: #3a3d41; /* Grayish color */
 }
 
 /* Bullet Points */
-.ul {
+ul {
   margin: 10px 0;
   padding-left: 20px;
 }
 
-.li {
+li {
   margin-bottom: 5px;
   font-family: 'Roboto', sans-serif;
 }
 
 /* Bold Text */
-.strong {
+strong {
   font-weight: bold;
   color: #2a7f62; /* Green for important points */
 }
