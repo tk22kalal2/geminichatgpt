@@ -12,6 +12,23 @@ let isResponseGenerating = false;
 const API_KEY = "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"; // Your Groq API key here
 const API_URL = "https://api.groq.com/openai/v1/chat/completions"; // Updated Groq API URL based on typical endpoint structure
 
+// Medical AI assistant specialized in MBBS education prompt
+const MEDICAL_AI_PROMPT = `You are a medical AI assistant specialized in MBBS education.
+Your responses should:
+1. Be clinically accurate and evidence-based
+2. Include relevant anatomical and physiological context
+3. Reference standard medical guidelines when applicable
+4. Use proper medical terminology
+5. Highlight key diagnostic criteria and differential diagnoses
+6. Explain complex concepts in clear, structured manner
+
+Remember to:
+- Maintain professional medical language
+- Include relevant clinical pearls
+- Emphasize important clinical correlations
+- Mention any recent updates in medical knowledge
+- Add cautionary notes where appropriate`;
+
 // Load theme and chat data from local storage on page load
 const loadDataFromLocalstorage = () => {
   const savedChats = localStorage.getItem("saved-chats");
@@ -70,7 +87,10 @@ const generateAPIResponse = async (incomingMessageDiv) => {
         "Authorization": `Bearer ${API_KEY}`
       },
       body: JSON.stringify({
-        "messages": [{ "role": "system", "content": userMessage }],
+        "messages": [
+          { "role": "system", "content": MEDICAL_AI_PROMPT },
+          { "role": "user", "content": userMessage }
+        ],
         "model": "mixtral-8x7b-32768",
         "temperature": 0.7,
         "max_tokens": 4096,
