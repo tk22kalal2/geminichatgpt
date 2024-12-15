@@ -74,6 +74,30 @@ const showTypingEffect = (text, textElement, incomingMessageDiv) => {
   }, 75);
 };
 
+// Convert markdown to HTML
+const markdownToHtml = (markdown) => {
+  return markdown
+    .replace(/\n{3,}/g, '\n\n')
+    // Convert markdown headings to HTML if not already
+    .replace(/^# (.*$)/gm, '<h1>$1</h1>')
+    .replace(/^## (.*$)/gm, '<h2>$1</h2>')
+    .replace(/^### (.*$)/gm, '<h3>$1</h3>')
+    // Handle bullet points
+    .replace(/^\* (.*$)/gm, '<li>$1</li>')
+    .replace(/^- (.*$)/gm, '<li>$1</li>')
+    // Wrap consecutive list items
+    .replace(/(<li>.*<\/li>\n?)+/g, '<ul>$&</ul>')
+    // Format bold text
+    .replace(/\*\*(.*?)\*\*/g, '<strong>$1</strong>')
+    // Add minimal spacing between sections
+    .replace(/<\/h[123]>/g, '$&\n')
+    .replace(/<\/ul>/g, '$&\n')
+    // Clean up any remaining multiple spaces or lines
+    .replace(/\n{3,}/g, '\n\n')
+    .replace(/  +/g, ' ')
+    .trim();
+};
+
 // Fetch response from the Groq API based on user message
 const generateAPIResponse = async (incomingMessageDiv) => {
   const textElement = incomingMessageDiv.querySelector(".text"); // Getting text element
@@ -103,8 +127,8 @@ const generateAPIResponse = async (incomingMessageDiv) => {
     const data = await response.json();
     if (!response.ok) throw new Error(data.error.message);
 
-    // Get the API response text and display it with typing effect
-    const apiResponse = data.choices[0].message.content;
+    // Get the API response text, convert it to HTML, and display it with typing effect
+    const apiResponse = markdownToHtml(data.choices[0].message.content);
     showTypingEffect(apiResponse, textElement, incomingMessageDiv); // Show typing effect
   } catch (error) { // Handle error
     isResponseGenerating = false;
@@ -188,6 +212,7 @@ suggestions.forEach(suggestion => {
     handleOutgoingChat();
   });
 });
+
 
 // Prevent default form submission and handle outgoing chat
 typingForm.addEventListener("submit", (e) => {
