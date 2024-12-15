@@ -148,6 +148,7 @@ body {
   padding: 20px;
   background: var(--bg-color);
   border-top: 1px solid var(--border-color);
+  margin-bottom: 2rem;
 }
 
 .typing-form {
