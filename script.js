@@ -20,7 +20,7 @@ Your responses should:
 3. Reference standard medical guidelines when applicable
 4. Use proper medical terminology
 5. Highlight key diagnostic criteria and differential diagnoses
-6. Explain complex concepts in clear, structured manner
+6. Explain complex concepts in a clear, structured manner
 
 Remember to:
 - Maintain professional medical language
@@ -74,20 +74,20 @@ const showTypingEffect = (text, textElement, incomingMessageDiv) => {
   }, 75);
 };
 
-// Convert markdown to HTML
+// Convert markdown to HTML with strong bold formatting for headings and important words
 const markdownToHtml = (markdown) => {
   return markdown
     .replace(/\n{3,}/g, '\n\n')
-    // Convert markdown headings to HTML if not already
-    .replace(/^# (.*$)/gm, '<h1>$1</h1>')
-    .replace(/^## (.*$)/gm, '<h2>$1</h2>')
-    .replace(/^### (.*$)/gm, '<h3>$1</h3>')
+    // Convert markdown headings to HTML with strong bold
+    .replace(/^# (.*$)/gm, '<h1><strong>$1</strong></h1>')
+    .replace(/^## (.*$)/gm, '<h2><strong>$1</strong></h2>')
+    .replace(/^### (.*$)/gm, '<h3><strong>$1</strong></h3>')
     // Handle bullet points
     .replace(/^\* (.*$)/gm, '<li>$1</li>')
     .replace(/^- (.*$)/gm, '<li>$1</li>')
     // Wrap consecutive list items
     .replace(/(<li>.*<\/li>\n?)+/g, '<ul>$&</ul>')
-    // Format bold text
+    // Format bold text for important words
     .replace(/\*\*(.*?)\*\*/g, '<strong>$1</strong>')
     // Add minimal spacing between sections
     .replace(/<\/h[123]>/g, '$&\n')
@@ -212,7 +212,6 @@ suggestions.forEach(suggestion => {
     handleOutgoingChat();
   });
 });
-
 
 // Prevent default form submission and handle outgoing chat
 typingForm.addEventListener("submit", (e) => {
