@@ -76,7 +76,8 @@ body {
   min-height: calc(100vh - 250px);
   padding: 20px;
   overflow-y: auto;
-  margin-bottom: 10rem;
+  margin-bottom: 5rem;
+  padding: 5px;
 }
 
 .message {
