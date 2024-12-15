@@ -217,6 +217,38 @@ body.hide-header .header {
   width: 70%;
 }
 
+/* Headings Styling */
+.h1, h2, h3 {
+  font-family: Arial, sans-serif;
+  margin: 15px 0;
+}
+
+.h1 strong {
+  color: #2d89ef; /* Light blue color */
+}
+
+.h2 strong, h3 strong {
+  color: #3a3d41; /* Grayish color */
+}
+
+/* Bullet Points */
+.ul {
+  margin: 10px 0;
+  padding-left: 20px;
+}
+
+.li {
+  margin-bottom: 5px;
+  font-family: 'Roboto', sans-serif;
+}
+
+/* Bold Text */
+.strong {
+  font-weight: bold;
+  color: #2a7f62; /* Green for important points */
+}
+
+
 @keyframes loading {
   0% {
     background-position: -800px 0;
