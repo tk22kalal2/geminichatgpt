@@ -25,6 +25,7 @@ const MEDICAL_AI_PROMPT = `You are a medical AI assistant specialized in MBBS ed
 - Bullet points for **differential diagnoses** and **clinical pearls**
 
 **Formatting Instructions:**
+- Explain in point wise simple language
 - Use headings and bold text for key points
 - Present lists with bullet points for clarity
 - Add cautionary notes where appropriate`;
