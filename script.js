@@ -69,7 +69,6 @@ const showTypingEffect = (text, textElement, incomingMessageDiv) => {
   }, 75);
 };
 
-// Convert markdown to structured HTML
 const markdownToHtml = (markdown) => {
   return markdown
     .replace(/^# (.*$)/gm, '<h1><strong>$1</strong></h1>')
@@ -79,7 +78,7 @@ const markdownToHtml = (markdown) => {
     .replace(/^- (.*$)/gm, '<li>$1</li>')
     .replace(/(<li>.*?<\/li>\n?)+/g, '<ul>$&</ul>')
     .replace(/\*\*(.*?)\*\*/g, '<strong>$1</strong>')
-    .replace(/\n{2,}/g, '\n')
+    .replace(/\n{2,}/g, '\n') // Remove excessive line breaks
     .trim();
 };
 
