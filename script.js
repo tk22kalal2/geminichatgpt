@@ -116,8 +116,8 @@ const generateAPIResponse = async (incomingMessageDiv) => {
           { "role": "user", "content": userMessage }
         ],
         "model": "mixtral-8x7b-32768",
-        "temperature": 0.7,
-        "max_tokens": 4096,
+        "temperature": 1,
+        "max_tokens": 1000,
         "top_p": 1,
         "stream": false,
         "stop": null
